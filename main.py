@@ -26,6 +26,9 @@ while True:
         response.raise_for_status()
         print("Ваша ссылка!: ", response.json()["link"])
     if otvet == 2:
-        print("50")
+        url = input("Напишите вашу сокрашенную  ссылку:(без https в начале) ")
+        response = requests.get(f'https://api-ssl.bitly.com/v4/bitlinks/{url}/clicks/summary', headers=headers)
+        response.raise_for_status()
+        print("Количество кликов по вашей ссылке: ", response.json() ["total_clicks"])
     if otvet == 3:
         exit()
