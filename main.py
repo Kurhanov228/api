@@ -1,6 +1,6 @@
 import requests
 from pprint import pprint
-
+from urllib.parse import urlparse
 
 def url_short(headers, url):
     data = {"long_url": url}
@@ -35,6 +35,8 @@ while True:
         print("Ваша ссылка:", url_short(headers, url))
     if otvet == 2:
         url = input("Напишите вашу сокращенную ссылку:")
-        print("Столько кликов", url_cliks(headers, url))
+        splited_url = urlparse(url)
+        url_without_sheme = f"{splited_url.netloc}{splited_url.path}"
+        print("Столько кликов:", url_cliks(headers, url_without_sheme))
     if otvet == 3:
         exit()
