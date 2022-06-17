@@ -1,14 +1,26 @@
 import requests
-from  pprint import pprint
+from pprint import pprint
+
+
+def url_short(headers, url):
+    data = {"long_url": url}
+    short_link_url = 'https://api-ssl.bitly.com/v4/bitlinks'
+    response = requests.post(short_link_url, headers=headers, json=data)
+    response.raise_for_status()
+    return response.json()["link"]
+
+
+def url_cliks(headers, url):
+    total_clicks_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}/clicks/summary'
+    response = requests.get(total_clicks_url, headers=headers)
+    response.raise_for_status()
+    return response.json()["total_clicks"]
+
 headers = {
     'Authorization': 'Bearer ac8678968bd58d3dddad020cdd2a9c8da75ce925',
     'Content-Type': 'application/json'
 }
 
-#response = requests.get('https://api-ssl.bitly.com/v4/user', headers=headers)
-#token = "ac8678968bd58d3dddad020cdd2a9c8da75ce925"
-
-#pprint(response.json()["emails"][0]["email"])
 print("Программа работы со ссылками битли")
 while True:
     print()
@@ -20,15 +32,9 @@ while True:
     print()
     if otvet == 1:
         url = input("Напишите вашу ссылку: ")
-        data = {"long_url": url}
-
-        response = requests.post('https://api-ssl.bitly.com/v4/bitlinks', headers=headers, json=data)
-        response.raise_for_status()
-        print("Ваша ссылка!: ", response.json()["link"])
+        print("Ваша ссылка:", url_short(headers, url))
     if otvet == 2:
-        url = input("Напишите вашу сокрашенную  ссылку:(без https в начале) ")
-        response = requests.get(f'https://api-ssl.bitly.com/v4/bitlinks/{url}/clicks/summary', headers=headers)
-        response.raise_for_status()
-        print("Количество кликов по вашей ссылке: ", response.json() ["total_clicks"])
+        url = input("Напишите вашу сокращенную ссылку:")
+        print("Столько кликов", url_cliks(headers, url))
     if otvet == 3:
         exit()
