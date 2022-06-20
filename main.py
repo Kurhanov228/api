@@ -30,11 +30,11 @@ while True:
     print()
     if user_selection == 1:
         url = input("Напишите вашу ссылку: ")
-        print("Ваша ссылка:", url_short(headers, url))
+        print("Ваша ссылка:", shorten_link(headers, url))
     if user_selection == 2:
         url = input("Напишите вашу сокращенную ссылку:")
         splited_url = urlparse(url)
         url_without_sheme = f"{splited_url.netloc}{splited_url.path}"
-        print("Столько кликов:", url_cliks(headers, url_without_sheme))
+        print("Столько кликов:", get_cliks(headers, url_without_sheme))
     if user_selection == 3:
         exit()
